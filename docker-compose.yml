@@ -1,0 +1,11 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+
+  restarter:
+    image: docker
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    command: ["/bin/sh", "-c", "while true; do sleep 3600; if [[ $(date +'%k') == '2' ]]; then docker restart scraper_app_1; fi; done"]
+    restart: unless-stopped
